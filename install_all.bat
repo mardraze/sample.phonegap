@@ -32,6 +32,6 @@ copy bower_components\sample.phonegap\index.html .
 
 mkdir bin
 mkdir src
-xcopy bower_components\sample.phonegap\app .
+xcopy /E /Y bower_components\sample.phonegap\app .
 
 pause
