@@ -29,4 +29,9 @@ move index.html index.old.html
 
 copy bower_components\sample.phonegap\index.html .
 
+
+mkdir bin
+mkdir src
+xcopy bower_components\sample.phonegap\app .
+
 pause
