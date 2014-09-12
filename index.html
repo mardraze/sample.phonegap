@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <title>Hello World</title>
+    </head>
+    <body>
+        <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+    
+		<input type="button" value="show spinner" onclick="window.plugins.spinnerDialog.show();" />
+		
+		<script>
+		var database;
+
+		// The below, or something like it, is necessary to use PouchDB functionality!
+		document.addEventListener("deviceready", onDeviceReady, false);
+
+		function onDeviceReady(){
+		    new PouchDB("helloworld", {}, function (err, db) {
+		        if (err) {
+		            console.log("Error while creating database: " + err)
+		            for(var e in err) {
+		                console.log("Error element: " + e + " -> "  + err[e]);
+		            }
+		            return;
+		        }
+		        console.log("Successfully made new database");
+		        database = db;
+		        db.post({title: "Hello, World!" }, {}, function (err, response) {
+		            console.log("Created doc: " + response.ok);
+		            console.log("Doc ID:  " + response.id)
+		            console.log("Revision: " + response.rev)
+		            
+		            var db = new PouchDB('websql://todos');
+					var remoteCouch = false;
+					$('#pouch').show();
+					
+					function addTodo(text) {
+						console.log('MARCINNNNNNN 1');
+					  var todo = {
+					    _id: new Date().toISOString(),
+					    title: text,
+					    completed: false
+					  };
+					  db.put(todo, function (err, result) {
+						  console.log('MARCINNNNNNN 2');
+					    if (!err) {
+					      console.log('Successfully posted a todo!');
+					      showTodos();
+					    }
+					  });
+					}
+					
+					function showTodos() {
+						console.log('MARCINNNNNNN 3');
+					  db.allDocs({include_docs: true, descending: true}, function(err, doc) {
+						  console.log('MARCINNNNNNN 4');
+					    redrawTodosUI(doc.rows);
+					  });
+					}
+					
+					function redrawTodosUI(rows){
+						console.log('MARCINNNNNNN 5');
+						console.log(rows);
+						$('#todo_list').html('');
+						$('#todo_list').html(JSON.stringify(rows));
+					}
+					
+					$('#add_todo').click(function(){
+						console.log('MARCINNNNNNN 6');
+						addTodo($('#show_todos').val());
+					});
+
+					            
+		        })
+		    });
+		};
+
+		
+		</script>
+		<input type="button" id="run_pouch" value="run PouchDB" />
+		<div id="pouch" style="display: none;">
+			<input type="text" id="todo_txt" /><input type="button" id="add_todo" value="Add TODO"/>
+			<div id="todo_list">
+			
+			</div>
+		</div>
+		<button onclick="window.plugins.socialsharing.share('Message only')">message only</button>
+		<button onclick="window.plugins.socialsharing.share('Message and subject', 'The subject')">message and subject</button>
+		<button onclick="window.plugins.socialsharing.share(null, null, null, 'http://www.x-services.nl')">link only</button>
+		<button onclick="window.plugins.socialsharing.share('Message and link', null, null, 'http://www.x-services.nl')">message and link</button>
+		<button onclick="window.plugins.socialsharing.share(null, null, 'https://www.google.nl/images/srpr/logo4w.png', null)">image only</button>
+		// Beware: passing a base64 file as 'data:' is not supported on Android 2.x: https://code.google.com/p/android/issues/detail?id=7901#c43
+		// Hint: when sharing a base64 encoded file on Android you can set the filename by passing it as the subject (second param)
+		<button onclick="window.plugins.socialsharing.share(null, 'Android filename', 'data:image/png;base64,R0lGODlhDAAMALMBAP8AAP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAUKAAEALAAAAAAMAAwAQAQZMMhJK7iY4p3nlZ8XgmNlnibXdVqolmhcRQA7', null)">base64 image only</button>
+		// Hint: you can share multiple files by using an array as thirds param: ['file 1','file 2', ..]
+		<button onclick="window.plugins.socialsharing.share('Message and image', null, 'https://www.google.nl/images/srpr/logo4w.png', null)">message and image</button>
+		<button onclick="window.plugins.socialsharing.share('Message, image and link', null, 'https://www.google.nl/images/srpr/logo4w.png', 'http://www.x-services.nl')">message, image and link</button>
+		<button onclick="window.plugins.socialsharing.share('Message, subject, image and link', 'The subject', 'https://www.google.nl/images/srpr/logo4w.png', 'http://www.x-services.nl')">message, subject, image and link</button>        
+
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="pouchdb-1.1.0.min.js"></script>
+
+    </body>
+</html>
