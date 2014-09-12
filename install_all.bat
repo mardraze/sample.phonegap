@@ -24,11 +24,9 @@ WHERE bower
 IF %ERRORLEVEL% NEQ 0 npm install bower
 call bower install mardraze/sample.phonegap
 
-rd /S /Q index.old.html
-move index.html index.old.html
+rd /S /Q index.html
 
 copy bower_components\sample.phonegap\index.html .
-
 
 mkdir bin
 mkdir src
