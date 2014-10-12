@@ -28,4 +28,4 @@ deploy.bat
 ```
 See also instructions from generator-ionic https://github.com/diegonetto/generator-ionic 
 
-
+Tested with Android 2.3 (HTC Wilfire S)
