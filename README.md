@@ -20,6 +20,7 @@ setup.bat
 I think Linux users cope with the creation of theirs own setup file :)
 
 Usage:
+===============
 1. Run deploy.bat script to pack html, css, js scripts and to deploy APK into device
 ```sh
 deploy.bat
