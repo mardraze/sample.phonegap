@@ -10,6 +10,7 @@ Installation:
 2. Install generator-ionic
 ```sh
 npm install -g generator-ionic
+git clone https://github.com/mardraze/sample.phonegap
 ```
 
 3. Change project name in setup.bat file
