@@ -14,6 +14,7 @@ npm install -g generator-ionic
 
 3. Change project name in setup.bat file
 4. Run setup.bat script
+
 I think Linux users cope with the creation of theirs own setup file :)
 
 Usage:
